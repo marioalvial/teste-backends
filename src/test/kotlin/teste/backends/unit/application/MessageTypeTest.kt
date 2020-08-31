@@ -19,7 +19,7 @@ class MessageTypeTest {
 
     @Nested
     @DisplayName("When creating a MessageType")
-    inner class MessageTypeCreation() {
+    inner class MessageTypeCreation {
 
         @Test
         fun `given proposal schema and created action should return PROPOSAL_CREATED`() {

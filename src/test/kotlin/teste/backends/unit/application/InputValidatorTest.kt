@@ -1,11 +1,11 @@
 package teste.backends.unit.application
 
+import javax.validation.constraints.NotBlank
 import org.assertj.core.api.Assertions.assertThatCode
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import teste.backends.proposal.application.InputValidator
-import javax.validation.constraints.NotBlank
 
 @DisplayName("When validating an input object")
 class InputValidatorTest {
@@ -27,7 +27,7 @@ class InputValidatorTest {
     }
 }
 
-internal class ValidationObject(
+internal data class ValidationObject(
     @field:NotBlank
     private val field: String
 )

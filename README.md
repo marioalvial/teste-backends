@@ -1,7 +1,26 @@
-<img src="https://s3.amazonaws.com/gupy5/production/companies/442/career/448/images/logo.png" align="right" height="150"/>
-
 # Teste de Back-end Bcredi
 
+[![CircleCI]()
+[![codecov]()
+[![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin)
+
+Teste para vaga de desenvolvedor back-end na Bcredi
+
+## Conteúdo
+- [Descrição](#descrição)
+- [Regras](#regras)
+- [Formato de Input](#formato-de-input)
+- [Casos de exemplo](#casos-de-exemplo)
+- [Architecture Diagram](#architecture-diagram)
+- [Environment](#environment)
+- [Running Application with Docker](#running-application-with-docker)
+- [Running Application Locally](#running-application-locally)
+- [Health Check](#health-check)
+- [Documentation](#documentation)
+- [Built With](#built-with)
+- [Credits](#credits)
+
+## Descrição
 Na Bcredi utilizamos sistemas de mensageria para integrar nossos microsserviços. Nesse desafio, você vai resolver um problema real com a linguagem que você escolher. 
 
 Você receberá uma lista de eventos com dados de propostas de empréstimo, garantias de imóvel e proponentes. Com base em regras de validação, você precisar retornar quais propostas são válidas após processar todos os eventos.
@@ -16,6 +35,7 @@ Para começar o desafio:
 4. Para testar sua solução, utilize os inputs e outputs definidos em `./test/input/*.txt` e `./test/output/*.txt`
 
 ⚠️ Lembre-se de manter seu código limpo (temos um exemplar do Clean Code no escritório), seguindo as convenções da comunidade da linguagem de você escolher e, é claro, de escrever testes.
+
 
 ## Regras
 
@@ -120,3 +140,71 @@ af6e600b-2622-40d1-89ad-d3e5b6cc2fdf
 ```
 
 Explicação: uma das propostas dos eventos não tinha nenhum proponente, por isso somente uma das propostas estavam válidas.
+
+## Prerequisites
+
+- **[Required]** [Docker](https://www.docker.com/): As this project is dockerized.
+- **[Required]** [Docker-Compose](https://docs.docker.com/compose/): To run project with its dependencies
+- **[Required]** [JDK 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+
+## Infrastructure Terraform
+
+[digital-account-terraform](https://github.com/creditas-scd/digital-account-terraform)
+
+## Environment
+
+- **Local** http://localhost:8000
+- **Development** https://digital-account.dev.creditas-scd.com.br
+- **Staging** https://digital-account.staging.creditas-scd.com.br
+- **Production** https://digital-account.creditas-scd.com.br
+
+## Running Application with Docker
+
+First, clone the project:
+
+```shell
+git clone git@github.com:creditas-scd/digital-account.git
+cd digital-account
+```
+
+Then create a new file called `variables.env` 
+
+After that copy the content of the `variables.env.sample` file to the `variables.env`
+
+In the `variables.env`, fulfil the fields that does not have a value
+
+Then execute the `make` command in order to build the application jar, build the docker-image and run all docker-compose services:
+
+```shell
+make run
+```
+
+## Executando o projeto
+
+Primeiro, clone o repositório:
+
+```shell
+git clone git@github.com:marioalvial/teste-backends.git
+cd teste-backends
+```
+
+Após isso, execute o comando `make run`
+
+Também é possível passar um diretório contendo arquivos de input: `make run DIRECTORY=/directory`
+
+## Testes
+
+### Executando todos os testes
+`make test`
+
+### Executando testes unitários
+`make unit-test`
+
+### Executando testes de integração
+`make integration-test`
+
+## Contruido com
+
+- [Kotlin](https://kotlinlang.org/) - Linguagem de programação
+- [IntelliJ](https://www.jetbrains.com/idea/) - IDE
+- [Gradle](https://gradle.org/) - Gerenciador de dependências 

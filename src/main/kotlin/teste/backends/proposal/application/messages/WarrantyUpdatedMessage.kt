@@ -1,10 +1,10 @@
 package teste.backends.proposal.application.messages
 
+import java.time.ZonedDateTime
+import javax.validation.constraints.NotBlank
 import teste.backends.proposal.application.InputValidator
 import teste.backends.proposal.core.domain.Province
 import teste.backends.proposal.core.events.WarrantyUpdatedEvent
-import java.time.ZonedDateTime
-import javax.validation.constraints.NotBlank
 
 class WarrantyUpdatedMessage(
     @field:NotBlank(message = "{field.not.blank}")

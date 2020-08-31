@@ -1,14 +1,14 @@
 package teste.backends.proposal.core.events
 
-import teste.backends.proposal.core.domain.Proposal
 import java.time.ZonedDateTime
+import teste.backends.proposal.core.domain.Proposal
 
 class ProponentRemovedEvent(
     override val id: String,
     override val timestamp: ZonedDateTime,
     override val proposalId: String,
     val proponentId: String
-) : Event() {
+) : Event {
 
     override fun apply(proposal: Proposal): Proposal = proposal
         .proponents

@@ -1,9 +1,9 @@
 package teste.backends.proposal.core.events
 
 import java.math.BigDecimal
+import java.time.ZonedDateTime
 import teste.backends.proposal.core.domain.Proponent
 import teste.backends.proposal.core.domain.Proposal
-import java.time.ZonedDateTime
 
 class ProponentAddedEvent(
     override val id: String,
@@ -14,7 +14,7 @@ class ProponentAddedEvent(
     val proponentAge: Int,
     val proponentMonthlyIncome: BigDecimal,
     val proponentIsMain: Boolean
-) : Event() {
+) : Event {
 
     override fun apply(proposal: Proposal): Proposal {
         val proponent = Proponent(proponentId, proponentName, proponentAge, proponentMonthlyIncome, proponentIsMain)

@@ -1,7 +1,7 @@
 package teste.backends
 
-import teste.backends.proposal.application.ProposalEventConsumer
 import java.io.File
+import teste.backends.proposal.application.ProposalEventConsumer
 
 fun main(args: Array<String>) {
     val directory = args[0]

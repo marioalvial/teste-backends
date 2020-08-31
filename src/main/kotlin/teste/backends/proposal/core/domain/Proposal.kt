@@ -30,8 +30,8 @@ data class Proposal(
     }
 
     private fun assertLoanValueInValidRange(): ProposalError? {
-        val minimumValue = BigDecimal.valueOf(30000)
-        val maximumValue = BigDecimal.valueOf(3000000)
+        val minimumValue = BigDecimal.valueOf(30_000)
+        val maximumValue = BigDecimal.valueOf(3_000_000)
 
         return when {
             loanValue >= minimumValue && loanValue <= maximumValue -> null
@@ -110,7 +110,7 @@ data class Proposal(
         }
 
         return when {
-            mainProponent.monthlyIncome >= (factor.toBigDecimal() * installmentValue) -> null
+            mainProponent.monthlyIncome >= factor.toBigDecimal() * installmentValue -> null
             else -> ProposalError()
         }
     }
@@ -136,4 +136,3 @@ data class Proposal(
         )
     }
 }
-

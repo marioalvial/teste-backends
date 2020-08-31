@@ -1,0 +1,133 @@
+version: 2.1
+
+commands:
+  restore_dependencies_cache:
+    description: "Try to restore dependencies cache"
+    steps:
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle.kts" }}
+            - v1-dependencies-
+      - run: ./gradlew dependencies
+
+  save_dependencies_cache:
+    description: "Save dependencies cache"
+    steps:
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle.kts" }}
+
+jobs:
+  cache-dependencies:
+    working_directory: ~/digital-account
+    docker:
+      - image: circleci/openjdk:11-jdk-stretch-node-browsers
+        environment:
+          JAVA_TOOL_OPTIONS: "-Xmx4G"
+          GRADLE_OPTS: "-Xmx4G -Dorg.gradle.daemon=false -DdisablePreDex"
+          TERM: dumb
+    steps:
+      - checkout
+      - restore_dependencies_cache
+      - save_dependencies_cache
+  unit-test:
+    working_directory: ~/application
+    docker:
+      - image: circleci/openjdk:11-jdk-stretch-node-browsers
+        environment:
+          JAVA_TOOL_OPTIONS: "-Xmx4G"
+          GRADLE_OPTS: "-Xmx4G -Dorg.gradle.daemon=false -DdisablePreDex"
+          TERM: dumb
+    steps:
+      - checkout
+      - run:
+          name: Unit tests
+          command: ./gradlew test -Dtest.type=unit
+      - run:
+          name: Generate Jacoco Report
+          command: |
+            ./gradlew jacocoTestReport
+      - run:
+          name: Save Tests results
+          command: |
+            mkdir -p ~/junit/unit/results
+            mv build/reports/jacoco/test/jacocoTestReport.xml ~/junit/unit
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/unit/results \;
+          when: always
+      - store_test_results:
+          path: ~/junit/unit/results
+      - persist_to_workspace:
+          root: ~/junit
+          paths:
+            - unit/jacocoTestReport.xml
+  integration-test:
+    working_directory: ~/application
+    docker:
+      - image: circleci/openjdk:11-jdk-stretch-node-browsers
+        environment:
+          JAVA_TOOL_OPTIONS: "-Xmx4G"
+          GRADLE_OPTS: "-Xmx4G -Dorg.gradle.daemon=false -DdisablePreDex"
+          TERM: dumb
+    steps:
+      - checkout
+      - run:
+          name: Integration tests
+          command: ./gradlew test -Dtest.type=integration
+      - run:
+          name: Generate Jacoco Report
+          command: |
+            ./gradlew jacocoTestReport
+      - run:
+          name: Save Tests results
+          command: |
+            mkdir -p ~/junit/integration/results
+            mv build/reports/jacoco/test/jacocoTestReport.xml ~/junit/integration
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/integration/results \;
+          when: always
+      - store_test_results:
+          path: ~/junit/integration/results
+      - persist_to_workspace:
+          root: ~/junit
+          paths:
+            - integration/jacocoTestReport.xml
+  report-tests:
+    working_directory: ~/application
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/junit
+      - run:
+          name: Send Coverage Report
+          command: |
+            cd ~
+            bash <(curl -s https://codecov.io/bash) -y ~/application/codecov.yml
+
+  lint:
+    working_directory: ~/application
+    docker:
+      - image: circleci/openjdk:11-jdk-stretch-node-browsers
+        environment:
+          JAVA_TOOL_OPTIONS: "-Xmx4G"
+          GRADLE_OPTS: "-Xmx4G -Dorg.gradle.daemon=false -DdisablePreDex"
+          TERM: dumb
+    steps:
+      - checkout
+      - run:
+          name: Run lint
+          command: ./gradlew detekt
+workflows:
+  "test":
+    jobs:
+      - cache-dependencies
+      - lint
+      - integration-test
+      - unit-test:
+          requires:
+            - cache-dependencies
+      - report-tests:
+          requires:
+            - unit-test
+            - integration-test

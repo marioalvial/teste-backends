@@ -19,7 +19,6 @@ object ProposalEventConsumer {
         .map { it.toEvent() }
         .fold(mutableMapOf()) { map, event -> mapEvents(map, event) }
 
-
     private fun mapEvents(map: MutableMap<String, List<Event>>, event: Event): MutableMap<String, List<Event>> {
         val currentEvents = map.getOrDefault(event.proposalId, emptyList())
 

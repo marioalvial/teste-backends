@@ -1,10 +1,10 @@
 package teste.backends.proposal.core.events
 
+import java.math.BigDecimal
+import java.time.ZonedDateTime
 import teste.backends.proposal.core.domain.Proposal
 import teste.backends.proposal.core.domain.Province
 import teste.backends.proposal.core.domain.Warranty
-import java.math.BigDecimal
-import java.time.ZonedDateTime
 
 class WarrantyAddedEvent(
     override val id: String,
@@ -13,7 +13,7 @@ class WarrantyAddedEvent(
     val warrantyId: String,
     val warrantyValue: BigDecimal,
     val warrantyProvince: Province
-) : Event() {
+) : Event {
 
     override fun apply(proposal: Proposal): Proposal {
         val warranty = Warranty(warrantyId, warrantyValue, warrantyProvince)

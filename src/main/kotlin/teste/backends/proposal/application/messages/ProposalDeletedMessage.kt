@@ -1,9 +1,9 @@
 package teste.backends.proposal.application.messages
 
-import teste.backends.proposal.application.InputValidator
-import teste.backends.proposal.core.events.ProposalDeletedEvent
 import java.time.ZonedDateTime
 import javax.validation.constraints.NotBlank
+import teste.backends.proposal.application.InputValidator
+import teste.backends.proposal.core.events.ProposalDeletedEvent
 
 class ProposalDeletedMessage(
     @field:NotBlank(message = "{field.not.blank}")

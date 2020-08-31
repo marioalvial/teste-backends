@@ -1,12 +1,12 @@
 package teste.backends.proposal.core.events
 
-import teste.backends.proposal.core.domain.Proposal
 import java.time.ZonedDateTime
+import teste.backends.proposal.core.domain.Proposal
 
-abstract class Event {
-    abstract val id: String
-    abstract val timestamp: ZonedDateTime
-    abstract val proposalId: String
+interface Event {
+    val id: String
+    val timestamp: ZonedDateTime
+    val proposalId: String
 
-    abstract fun apply(proposal: Proposal): Proposal
+    fun apply(proposal: Proposal): Proposal
 }

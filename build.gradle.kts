@@ -1,7 +1,10 @@
 plugins {
     application
+    id("jacoco")
     id("com.adarshr.test-logger") version "2.0.0"
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
+    id("org.jmailen.kotlinter") version "2.1.2"
+    id("io.gitlab.arturbosch.detekt") version "1.1.1"
     id("com.github.johnrengelman.shadow") version "5.0.0"
 }
 
@@ -12,12 +15,9 @@ repositories {
 group = "teste.backends"
 
 dependencies {
+    // Kotlin
     implementation(kotlin("stdlib-jdk8"))
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-//    // Align versions of all Kotlin components
-//
-//    // Use the Kotlin JDK 8 standard library.
-//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // Validation
     implementation("org.glassfish:javax.el:3.0.1-b11")
@@ -38,12 +38,6 @@ tasks {
     application {
         mainClassName = "teste.backends.SolutionKt"
     }
-//    jar {
-//        manifest {
-//            attributes["Main-Class"] = "teste.backends.SolutionKt"
-//        }
-//
-//    }
 
     test {
         useJUnitPlatform()
@@ -51,6 +45,37 @@ tasks {
         System.getProperty("test.type")?.let {
             if (it == "unit") exclude("**/*integration*")
             if (it == "integration") exclude("**/*unit*")
+        }
+    }
+
+    detekt {
+        failFast = true
+        buildUponDefaultConfig = true
+        input = files("src/main/kotlin", "src/test/kotlin")
+        config = files("$projectDir/detekt/config.yml")
+
+        reports {
+            xml.enabled = true
+
+            html.enabled = false
+            txt.enabled = false
+        }
+    }
+
+    kotlinter {
+        ignoreFailures = true
+        indentSize = 4
+        continuationIndentSize = 4
+        reporters = arrayOf("checkstyle", "plain")
+        experimentalRules = false
+        disabledRules = emptyArray()
+        fileBatchSize = 30
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.isEnabled = true
+            csv.isEnabled = false
         }
     }
 

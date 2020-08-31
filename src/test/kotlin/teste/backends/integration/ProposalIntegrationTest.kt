@@ -1,10 +1,10 @@
 package teste.backends.integration
 
+import java.io.File
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import teste.backends.processMessages
-import java.io.File
 
 @DisplayName("When consuming events in order to validate proposals")
 class ProposalIntegrationTest {
