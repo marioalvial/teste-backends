@@ -1,2 +1,2 @@
-fixes:
-    - "/home/circleci/::"
+ignore:
+    - "src/main/kotlin/teste/backends/Solution.kt
