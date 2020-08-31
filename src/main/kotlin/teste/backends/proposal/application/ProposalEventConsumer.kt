@@ -30,11 +30,6 @@ object ProposalEventConsumer {
         return map
     }
 
-    private fun isEligibleToConsume(currentEvents: List<Event>, event: Event) = currentEvents.none {
-        val eventAlreadyAdded = it.id == event.id
-        val eventTypeAlreadyExists = it::class.isInstance(event::class)
-        val eventIsOlderThanTheOneAlreadyAdded = it.timestamp.isAfter(event.timestamp)
-
-        eventAlreadyAdded || (eventTypeAlreadyExists && eventIsOlderThanTheOneAlreadyAdded)
-    }
+    private fun isEligibleToConsume(currentEvents: List<Event>, event: Event) = currentEvents
+        .none { it.id == event.id || it.timestamp.isAfter(event.timestamp) }
 }
