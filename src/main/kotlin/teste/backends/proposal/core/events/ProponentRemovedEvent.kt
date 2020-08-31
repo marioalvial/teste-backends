@@ -7,7 +7,7 @@ class ProponentRemovedEvent(
     override val id: String,
     override val timestamp: ZonedDateTime,
     override val proposalId: String,
-    val proponentId: String
+    private val proponentId: String
 ) : Event {
 
     override fun apply(proposal: Proposal): Proposal = proposal

@@ -10,9 +10,9 @@ class WarrantyUpdatedEvent(
     override val id: String,
     override val timestamp: ZonedDateTime,
     override val proposalId: String,
-    val warrantyId: String,
-    val warrantyValue: BigDecimal,
-    val warrantyProvince: Province
+    private val warrantyId: String,
+    private val warrantyValue: BigDecimal,
+    private val warrantyProvince: Province
 ) : Event {
 
     override fun apply(proposal: Proposal): Proposal = proposal

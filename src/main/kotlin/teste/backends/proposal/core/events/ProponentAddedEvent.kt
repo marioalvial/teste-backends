@@ -9,11 +9,11 @@ class ProponentAddedEvent(
     override val id: String,
     override val timestamp: ZonedDateTime,
     override val proposalId: String,
-    val proponentId: String,
-    val proponentName: String,
-    val proponentAge: Int,
-    val proponentMonthlyIncome: BigDecimal,
-    val proponentIsMain: Boolean
+    private val proponentId: String,
+    private val proponentName: String,
+    private val proponentAge: Int,
+    private val proponentMonthlyIncome: BigDecimal,
+    private val proponentIsMain: Boolean
 ) : Event {
 
     override fun apply(proposal: Proposal): Proposal {

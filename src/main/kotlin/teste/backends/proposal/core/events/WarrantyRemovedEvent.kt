@@ -7,7 +7,7 @@ class WarrantyRemovedEvent(
     override val id: String,
     override val timestamp: ZonedDateTime,
     override val proposalId: String,
-    val warrantyId: String
+    private val warrantyId: String
 ) : Event {
 
     override fun apply(proposal: Proposal): Proposal = proposal
