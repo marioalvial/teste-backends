@@ -9,7 +9,7 @@ import teste.backends.proposal.core.domain.Province
 class ProvinceTest {
 
     @Test
-    fun `given RO value should return RO province`(){
+    fun `given RO value should return RO province`() {
         val province = Province.of("RO")
 
         assertThat(province).isEqualTo(Province.RO)
@@ -17,7 +17,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given AC value should return AC province`(){
+    fun `given AC value should return AC province`() {
         val province = Province.of("AC")
 
         assertThat(province).isEqualTo(Province.AC)
@@ -25,7 +25,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given AM value should return AM province`(){
+    fun `given AM value should return AM province`() {
         val province = Province.of("AM")
 
         assertThat(province).isEqualTo(Province.AM)
@@ -33,7 +33,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given RR value should return RR province`(){
+    fun `given RR value should return RR province`() {
         val province = Province.of("RR")
 
         assertThat(province).isEqualTo(Province.RR)
@@ -41,7 +41,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given PA value should return PA province`(){
+    fun `given PA value should return PA province`() {
         val province = Province.of("PA")
 
         assertThat(province).isEqualTo(Province.PA)
@@ -49,7 +49,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given AP value should return AP province`(){
+    fun `given AP value should return AP province`() {
         val province = Province.of("AP")
 
         assertThat(province).isEqualTo(Province.AP)
@@ -57,7 +57,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given TO value should return TO province`(){
+    fun `given TO value should return TO province`() {
         val province = Province.of("TO")
 
         assertThat(province).isEqualTo(Province.TO)
@@ -65,7 +65,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given MA value should return MA province`(){
+    fun `given MA value should return MA province`() {
         val province = Province.of("MA")
 
         assertThat(province).isEqualTo(Province.MA)
@@ -73,7 +73,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given PI value should return PI province`(){
+    fun `given PI value should return PI province`() {
         val province = Province.of("PI")
 
         assertThat(province).isEqualTo(Province.PI)
@@ -81,7 +81,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given CE value should return CE province`(){
+    fun `given CE value should return CE province`() {
         val province = Province.of("CE")
 
         assertThat(province).isEqualTo(Province.CE)
@@ -89,7 +89,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given RN value should return RN province`(){
+    fun `given RN value should return RN province`() {
         val province = Province.of("RN")
 
         assertThat(province).isEqualTo(Province.RN)
@@ -97,7 +97,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given PB value should return PB province`(){
+    fun `given PB value should return PB province`() {
         val province = Province.of("PB")
 
         assertThat(province).isEqualTo(Province.PB)
@@ -105,7 +105,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given PE value should return PE province`(){
+    fun `given PE value should return PE province`() {
         val province = Province.of("PE")
 
         assertThat(province).isEqualTo(Province.PE)
@@ -113,7 +113,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given AL value should return AL province`(){
+    fun `given AL value should return AL province`() {
         val province = Province.of("AL")
 
         assertThat(province).isEqualTo(Province.AL)
@@ -121,7 +121,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given SE value should return SE province`(){
+    fun `given SE value should return SE province`() {
         val province = Province.of("SE")
 
         assertThat(province).isEqualTo(Province.SE)
@@ -129,7 +129,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given BA value should return BA province`(){
+    fun `given BA value should return BA province`() {
         val province = Province.of("BA")
 
         assertThat(province).isEqualTo(Province.BA)
@@ -137,7 +137,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given MG value should return MG province`(){
+    fun `given MG value should return MG province`() {
         val province = Province.of("MG")
 
         assertThat(province).isEqualTo(Province.MG)
@@ -145,7 +145,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given ES value should return ES province`(){
+    fun `given ES value should return ES province`() {
         val province = Province.of("ES")
 
         assertThat(province).isEqualTo(Province.ES)
@@ -153,7 +153,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given RJ value should return RJ province`(){
+    fun `given RJ value should return RJ province`() {
         val province = Province.of("RJ")
 
         assertThat(province).isEqualTo(Province.RJ)
@@ -161,7 +161,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given SP value should return SP province`(){
+    fun `given SP value should return SP province`() {
         val province = Province.of("SP")
 
         assertThat(province).isEqualTo(Province.SP)
@@ -169,7 +169,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given PR value should return PR province`(){
+    fun `given PR value should return PR province`() {
         val province = Province.of("PR")
 
         assertThat(province).isEqualTo(Province.PR)
@@ -177,7 +177,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given SC value should return SC province`(){
+    fun `given SC value should return SC province`() {
         val province = Province.of("SC")
 
         assertThat(province).isEqualTo(Province.SC)
@@ -185,7 +185,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given RS value should return RS province`(){
+    fun `given RS value should return RS province`() {
         val province = Province.of("RS")
 
         assertThat(province).isEqualTo(Province.RS)
@@ -193,7 +193,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given MS value should return MS province`(){
+    fun `given MS value should return MS province`() {
         val province = Province.of("MS")
 
         assertThat(province).isEqualTo(Province.MS)
@@ -201,7 +201,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given MT value should return MT province`(){
+    fun `given MT value should return MT province`() {
         val province = Province.of("MT")
 
         assertThat(province).isEqualTo(Province.MT)
@@ -209,7 +209,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given GO value should return GO province`(){
+    fun `given GO value should return GO province`() {
         val province = Province.of("GO")
 
         assertThat(province).isEqualTo(Province.GO)
@@ -217,7 +217,7 @@ class ProvinceTest {
     }
 
     @Test
-    fun `given DF value should return DF province`(){
+    fun `given DF value should return DF province`() {
         val province = Province.of("DF")
 
         assertThat(province).isEqualTo(Province.DF)

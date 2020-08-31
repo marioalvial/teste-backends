@@ -5,7 +5,7 @@ run:
 	java -jar build/libs/teste-backends-all.jar ${DIRECTORY}
 
 test:
-	./gradlew clean build test
+	./gradlew clean test
 
 unit-test:
 	./gradlew test -Dtest.type=unit
