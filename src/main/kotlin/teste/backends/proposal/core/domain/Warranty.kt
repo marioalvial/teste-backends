@@ -8,5 +8,5 @@ class Warranty(
     val province: Province
 ){
 
-    fun provinceIsAccepted() = province.isAccepted
+    fun provinceAccepted() = province.isAccepted
 }

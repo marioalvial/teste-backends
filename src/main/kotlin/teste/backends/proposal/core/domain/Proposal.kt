@@ -13,30 +13,94 @@ data class Proposal(
 ) {
 
     fun isValid(): Boolean {
-        return try {
-            assertLoanValueInValidRange()
-            assertNumberOfMonthlyInstallmentsInValidInterval()
-            assertMinimumNumberOfProponents()
-            assertNumberOfMainProponents()
-            assertMinimumNumberOfWarranties()
-            assertMinimumAgeOfProponents()
-            assertWarrantiesValueSumGreaterThanLoanValue()
-            assertWarrentiesProvincesIsAccepted()
-            assertLoanValueIsProportionalToProponentIncomeBasedOnAge()
+        val errors = listOfNotNull(
+            assertLoanValueInValidRange(),
+            assertNumberOfMonthlyInstallmentsInValidInterval(),
+            assertMinimumNumberOfProponents(),
+            assertNumberOfMainProponents(),
+            assertMinimumNumberOfWarranties(),
+            assertMinimumAgeOfProponents(),
+            assertWarrantiesValueSumGreaterThanLoanValue(),
+            assertWarrantiesProvincesAccepted(),
+            assertLoanValueIsProportionalToProponentIncomeBasedOnAge(),
             assertProposalIsNotDeleted()
-            true
-        } catch (ex: Exception) {
-            false
+        )
+
+        return errors.isEmpty()
+    }
+
+    private fun assertLoanValueInValidRange(): ProposalError? {
+        val minimumValue = BigDecimal.valueOf(30000)
+        val maximumValue = BigDecimal.valueOf(3000000)
+
+        return when {
+            loanValue >= minimumValue && loanValue <= maximumValue -> null
+            else -> ProposalError()
         }
     }
 
-    private fun assertProposalIsNotDeleted() {
-        require(status != ProposalStatus.DELETED) {
-            throw RuntimeException("Proposta deletada")
+    private fun assertNumberOfMonthlyInstallmentsInValidInterval(): ProposalError? {
+        val minimumNumber = 24
+        val maximumNumber = 180
+
+        return when (numberOfMonthlyInstallments) {
+            in minimumNumber..maximumNumber -> null
+            else -> ProposalError()
         }
     }
 
-    private fun assertLoanValueIsProportionalToProponentIncomeBasedOnAge() {
+    private fun assertMinimumNumberOfProponents(): ProposalError? {
+        val minimumNumberOfProponents = 2
+
+        return when {
+            proponents.size >= minimumNumberOfProponents -> null
+            else -> ProposalError()
+        }
+    }
+
+    private fun assertNumberOfMainProponents(): ProposalError? {
+        val mandatoryNumberOfMainProponents = 1
+
+        return when (proponents.count { it.isMain }) {
+            mandatoryNumberOfMainProponents -> null
+            else -> ProposalError()
+        }
+    }
+
+    private fun assertMinimumNumberOfWarranties(): ProposalError? {
+        val minimumNumberOfWarranties = 1
+
+        return when {
+            warranties.size >= minimumNumberOfWarranties -> null
+            else -> ProposalError()
+        }
+    }
+
+    private fun assertMinimumAgeOfProponents(): ProposalError? {
+        val minimumAge = 18
+
+        return when (proponents.none { it.age < minimumAge }) {
+            true -> null
+            false -> ProposalError()
+        }
+    }
+
+    private fun assertWarrantiesValueSumGreaterThanLoanValue(): ProposalError? {
+        val sum = warranties.fold(BigDecimal.ZERO) { accumulator, warranty -> accumulator.plus(warranty.value) }
+        val twiceLoanValue = loanValue * BigDecimal.valueOf(2)
+
+        return when {
+            sum >= twiceLoanValue -> null
+            else -> ProposalError()
+        }
+    }
+
+    private fun assertWarrantiesProvincesAccepted(): ProposalError? = when (warranties.all { it.provinceAccepted() }) {
+        true -> null
+        else -> ProposalError()
+    }
+
+    private fun assertLoanValueIsProportionalToProponentIncomeBasedOnAge(): ProposalError? {
         val mainProponent = getMainProponent()
         val installmentValue = calculateInstallmentValue()
         val factor = when (mainProponent.age) {
@@ -45,9 +109,15 @@ data class Proposal(
             else -> 2
         }
 
-        require(mainProponent.monthlyIncome >= (factor.toBigDecimal() * installmentValue)) {
-            throw RuntimeException("Main proponent não possui renda suficiente")
+        return when {
+            mainProponent.monthlyIncome >= (factor.toBigDecimal() * installmentValue) -> null
+            else -> ProposalError()
         }
+    }
+
+    private fun assertProposalIsNotDeleted(): ProposalError? = when (status) {
+        ProposalStatus.DELETED -> ProposalError()
+        else -> null
     }
 
     private fun calculateInstallmentValue() = loanValue.divide(numberOfMonthlyInstallments.toBigDecimal(), HALF_UP)
@@ -56,70 +126,6 @@ data class Proposal(
         .find { it.isMain }
         ?: throw RuntimeException("Não foi encontrado nenhum main proponent")
 
-    private fun assertWarrentiesProvincesIsAccepted() {
-        require(warranties.all { it.provinceIsAccepted() }) {
-            throw RuntimeException("Existem garantias de pronvicias não aceitas")
-        }
-    }
-
-    private fun assertMinimumAgeOfProponents() {
-        val minimumAge = 18
-
-        require(proponents.none { it.age < minimumAge }) {
-            throw RuntimeException("Existem proponentes menores de idade")
-        }
-    }
-
-    private fun assertWarrantiesValueSumGreaterThanLoanValue() {
-        val sum = warranties.fold(BigDecimal.ZERO) { accumulator, warranty -> accumulator.plus(warranty.value) }
-        val twiceLoanValue = loanValue * BigDecimal.valueOf(2)
-
-        require(sum >= twiceLoanValue) {
-            throw RuntimeException("Valor da garantia não é suficiente")
-        }
-    }
-
-    private fun assertMinimumNumberOfWarranties() {
-        val minimumNumberOfWarranties = 1
-
-        require(warranties.size >= minimumNumberOfWarranties) {
-            throw RuntimeException("Não possui número de garantias suficiente")
-        }
-    }
-
-    private fun assertNumberOfMainProponents() {
-        val mandatoryNumberOfMainProponents = 1
-
-        require(proponents.count { it.isMain } == mandatoryNumberOfMainProponents) {
-            throw RuntimeException("Não possui número de main proponents")
-        }
-    }
-
-    private fun assertMinimumNumberOfProponents() {
-        val minimumNumberOfProponents = 2
-
-        require(proponents.size >= minimumNumberOfProponents) {
-            throw RuntimeException("Não possui número de pessoas suficiente")
-        }
-    }
-
-    private fun assertLoanValueInValidRange() {
-        val minimumValue = BigDecimal.valueOf(30000)
-        val maximumValue = BigDecimal.valueOf(3000000)
-
-        require(loanValue >= minimumValue && loanValue <= maximumValue) {
-            throw RuntimeException("Valor da proposta não está dentro do intervalo válido")
-        }
-    }
-
-    private fun assertNumberOfMonthlyInstallmentsInValidInterval() {
-        val minimumNumber = 24
-        val maximumNumber = 180
-
-        require(numberOfMonthlyInstallments in minimumNumber..maximumNumber) {
-            throw RuntimeException("Valor da proposta não está dentro do intervalo válido")
-        }
-    }
 
     companion object {
         fun empty() = Proposal(
@@ -132,3 +138,4 @@ data class Proposal(
         )
     }
 }
+
