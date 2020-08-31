@@ -45,22 +45,22 @@ jobs:
           name: Unit tests
           command: ./gradlew test -Dtest.type=unit
       - run:
-          name: Generate Jacoco Report
+          name: Save Unit Tests results
           command: |
-            ./gradlew jacocoTestReport
-      - run:
-          name: Save Tests results
-          command: |
-            mkdir -p ~/junit/unit/results
-            mv build/reports/jacoco/test/jacocoTestReport.xml ~/junit/unit
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/unit/results \;
+            mkdir -p ~/junit/
+            find . -type f -regex ".*/build/test-results/.*xml"
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/ \;
           when: always
       - store_test_results:
-          path: ~/junit/unit/results
-      - persist_to_workspace:
-          root: ~/junit
-          paths:
-            - unit/jacocoTestReport.xml
+          path: ~/junit
+      - store_artifacts:
+          path: ~/junit
+      - run:
+          name: Code coverage
+          command: |
+            ./gradlew jacocoTestReport
+            ./gradlew jacocoTestCoverageVerification
+            bash <(curl -s https://codecov.io/bash)
   integration-test:
     working_directory: ~/application
     docker:
@@ -75,33 +75,21 @@ jobs:
           name: Integration tests
           command: ./gradlew test -Dtest.type=integration
       - run:
-          name: Generate Jacoco Report
+          name: Save Integration Tests results
           command: |
-            ./gradlew jacocoTestReport
-      - run:
-          name: Save Tests results
-          command: |
-            mkdir -p ~/junit/integration/results
-            mv build/reports/jacoco/test/jacocoTestReport.xml ~/junit/integration
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/integration/results \;
+            mkdir -p ~/junit/integration
+            find . -type f -regex ".*/build/test-results/.*xml"
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/integration \;
           when: always
       - store_test_results:
-          path: ~/junit/integration/results
-      - persist_to_workspace:
-          root: ~/junit
-          paths:
-            - integration/jacocoTestReport.xml
-  report-tests:
-    working_directory: ~/application
-    docker:
-      - image: cimg/base:2020.01
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/junit
+          path: ~/junit/integration
+      - store_artifacts:
+          path: ~/junit/integration
       - run:
-          name: Send Coverage Report
+          name: Code coverage
           command: |
+            ./gradlew jacocoTestReport
+            ./gradlew jacocoTestCoverageVerification
             bash <(curl -s https://codecov.io/bash)
 
   lint:
@@ -126,7 +114,3 @@ workflows:
       - unit-test:
           requires:
             - cache-dependencies
-      - report-tests:
-          requires:
-            - unit-test
-            - integration-test
