@@ -102,8 +102,7 @@ jobs:
       - run:
           name: Send Coverage Report
           command: |
-            cd ~
-            bash <(curl -s https://codecov.io/bash) -y ~/application/codecov.yml
+            bash <(curl -s https://codecov.io/bash)
 
   lint:
     working_directory: ~/application
