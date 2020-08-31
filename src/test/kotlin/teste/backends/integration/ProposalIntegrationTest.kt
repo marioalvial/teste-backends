@@ -23,7 +23,7 @@ class ProposalIntegrationTest {
 
                 val actual = processMessages(messageValues)
 
-                assertThat(actual).isEqualTo(expected)
+                assertThat(actual).isEqualToIgnoringWhitespace(expected)
             }
     }
 }
