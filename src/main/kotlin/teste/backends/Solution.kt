@@ -14,4 +14,4 @@ fun main(args: Array<String>) {
         .forEach { println(processMessages(it)) }
 }
 
-fun processMessages(messages: List<String>) = ProposalEventConsumer.consume(messages)
+fun processMessages(messages: List<String>): String = ProposalEventConsumer.consume(messages)

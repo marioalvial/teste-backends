@@ -101,7 +101,7 @@ data class Proposal(
     }
 
     private fun assertLoanValueIsProportionalToProponentIncomeBasedOnAge(): ProposalError? {
-        val mainProponent = getMainProponent()
+        val mainProponent = getMainProponent() ?: return ProposalError()
         val installmentValue = calculateInstallmentValue()
         val factor = when (mainProponent.age) {
             in 18..24 -> 4
@@ -120,15 +120,13 @@ data class Proposal(
         else -> null
     }
 
-    private fun calculateInstallmentValue() = loanValue.divide(numberOfMonthlyInstallments.toBigDecimal(), HALF_UP)
+    private fun calculateInstallmentValue(): BigDecimal = loanValue
+        .divide(numberOfMonthlyInstallments.toBigDecimal(), HALF_UP)
 
-    private fun getMainProponent() = proponents
-        .find { it.isMain }
-        ?: throw RuntimeException("Não foi encontrado nenhum main proponent")
-
+    private fun getMainProponent(): Proponent? = proponents.find { it.isMain }
 
     companion object {
-        fun empty() = Proposal(
+        fun empty(): Proposal = Proposal(
             id = "",
             loanValue = BigDecimal.ZERO,
             numberOfMonthlyInstallments = 0,

@@ -30,6 +30,8 @@ enum class Province(val isAccepted: Boolean) {
     DF(true);
 
     companion object {
-        fun of(value: String) = values().find { it.name == value } ?: throw RuntimeException("Não achou a provincia")
+        fun of(value: String): Province = values()
+            .find { it.name == value }
+            ?: throw RuntimeException("Não achou a provincia")
     }
 }

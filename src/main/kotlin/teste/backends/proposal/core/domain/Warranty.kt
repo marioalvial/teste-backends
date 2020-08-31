@@ -6,7 +6,7 @@ class Warranty(
     val id: String,
     val value: BigDecimal,
     val province: Province
-){
+) {
 
-    fun provinceAccepted() = province.isAccepted
+    fun provinceAccepted(): Boolean = province.isAccepted
 }
