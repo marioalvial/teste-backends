@@ -11,7 +11,7 @@ Teste para vaga de desenvolvedor back-end na Bcredi
 - [Regras](#regras)
 - [Formato de Input](#formato-de-input)
 - [Casos de exemplo](#casos-de-exemplo)
-- [Pré-requisitos](#pre-requisitos)
+- [Pré-requisitos](#pré-requisitos)
 - [Executando o projeto](#executando-o-projeto)
 - [Teste](#teste)
 - [Construído com](#construido-com)
