@@ -20,7 +20,6 @@ commands:
 
 jobs:
   cache-dependencies:
-    working_directory: ~/digital-account
     docker:
       - image: circleci/openjdk:11-jdk-stretch-node-browsers
         environment:
@@ -32,7 +31,6 @@ jobs:
       - restore_dependencies_cache
       - save_dependencies_cache
   unit-test:
-    working_directory: ~/application
     docker:
       - image: circleci/openjdk:11-jdk-stretch-node-browsers
         environment:
@@ -62,7 +60,6 @@ jobs:
           paths:
             - unit/jacocoTestReport.xml
   integration-test:
-    working_directory: ~/application
     docker:
       - image: circleci/openjdk:11-jdk-stretch-node-browsers
         environment:
@@ -92,7 +89,6 @@ jobs:
           paths:
             - integration/jacocoTestReport.xml
   report-tests:
-    working_directory: ~/application
     docker:
       - image: cimg/base:2020.01
     steps:
@@ -103,10 +99,9 @@ jobs:
           name: Send Coverage Report
           command: |
             cd ~
-            bash <(curl -s https://codecov.io/bash) -y ~/application/codecov.yml
+            bash <(curl -s https://codecov.io/bash) -y ~/codecov.yml
 
   lint:
-    working_directory: ~/application
     docker:
       - image: circleci/openjdk:11-jdk-stretch-node-browsers
         environment:
