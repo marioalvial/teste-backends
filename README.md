@@ -14,7 +14,7 @@ Teste para vaga de desenvolvedor back-end na Bcredi
 - [Pré-requisitos](#pré-requisitos)
 - [Executando o projeto](#executando-o-projeto)
 - [Teste](#teste)
-- [Construído com](#construido-com)
+- [Construído com](#construído-com)
 
 ## Descrição
 Na Bcredi utilizamos sistemas de mensageria para integrar nossos microsserviços. Nesse desafio, você vai resolver um problema real com a linguagem que você escolher. 
